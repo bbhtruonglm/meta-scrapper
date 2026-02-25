@@ -1,8 +1,8 @@
 /** Khai báo module express dùng để tạo web server */
 const EXPRESS = require("express");
 
-/** Khai báo thư viện got để tạo các HTTP request */
-const GOT = require("got").default;
+/** Khai báo thư viện got để tạo các HTTP request (được load dynamic vì là ES Module) */
+// const GOT = require("got").default;
 
 /** Khai báo thư viện sharp để xử lý hình ảnh */
 const SHARP = require("sharp");
@@ -75,6 +75,9 @@ function formatBytes(bytes) {
 async function enrichImage(imageUrl) {
   // Đưa vào khối Try catch bắt lỗi an toàn khi xử lý hình ảnh
   try {
+    /** Khai báo nạp thư viện got động (ES Module) */
+    const { default: GOT } = await import("got");
+
     /** Khai báo và chờ thư viện gọi vào URL truyền vào lấy phản hồi buffer */
     const RESPONSE = await GOT(imageUrl, {
       responseType: "buffer",
@@ -168,6 +171,9 @@ async function detectFavicon(html, pageUrl) {
  * @returns {Promise<Object>} Trả ra nội dung tổng hợp thông tin trang web
  */
 async function scrape(url) {
+  /** Khai báo nạp thư viện got động (ES Module) */
+  const { default: GOT } = await import("got");
+
   /** Khai báo và chờ thư viện got gửi lên lấy response trực tiếp vào đường link truyền vào qua method Get */
   const RESPONSE = await GOT(url, {
     timeout: { request: 15000 },
