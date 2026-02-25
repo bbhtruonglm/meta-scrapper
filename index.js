@@ -25,7 +25,7 @@ const META_SCRAPER = require("metascraper")([
   require("metascraper-manifest")(),
   require("metascraper-media-provider")(),
   require("metascraper-publisher")(),
-  require("metascraper-readability")(),
+
   require("metascraper-title")(),
   require("metascraper-url")(),
   require("metascraper-video")(),
