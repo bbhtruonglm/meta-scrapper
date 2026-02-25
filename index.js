@@ -262,8 +262,14 @@ APP.get("/metadata", async (req, res) => {
   }
 });
 
-// Khởi chạy kích hoạt tạo nghe máy chủ mở cổng socket để hứng các connection liên kết HTTP request
-APP.listen(PORT, () => {
-  // Báo ra màn command line terminal trạng thái app đang được chạy và chờ kết nối thành công tại host
-  console.log(`Metadata API running at http://localhost:${PORT}`);
-});
+// Kiểm tra nếu không chạy trên Vercel (môi trường giao tiếp serverless) thì mới tiến hành mở port
+if (process.env.NODE_ENV !== "production") {
+  // Khởi chạy kích hoạt tạo nghe máy chủ mở cổng socket để hứng các connection liên kết HTTP request
+  APP.listen(PORT, () => {
+    // Báo ra màn command line terminal trạng thái app đang được chạy và chờ kết nối thành công tại host
+    console.log(`Metadata API running at http://localhost:${PORT}`);
+  });
+}
+
+// Xuất ứng dụng định cấu hình module exports cho Serverless function của Vercel nhận diện app route API
+module.exports = APP;
